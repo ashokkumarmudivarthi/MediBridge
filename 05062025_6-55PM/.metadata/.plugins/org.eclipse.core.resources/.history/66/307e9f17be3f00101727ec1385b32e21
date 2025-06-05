@@ -1,0 +1,5 @@
+package com.medibridge.authservice.controller;
+
+public class AuthController {
+
+}

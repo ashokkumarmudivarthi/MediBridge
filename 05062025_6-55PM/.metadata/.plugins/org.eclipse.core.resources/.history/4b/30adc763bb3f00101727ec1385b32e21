@@ -1,0 +1,5 @@
+package com.medibridge.authservice.model;
+
+public class Role {
+
+}

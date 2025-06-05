@@ -1,0 +1,5 @@
+package com.medibridge.authservice.util;
+
+public class GenerateHash {
+
+}

@@ -1,0 +1,5 @@
+package com.medibridge.authservice.dto;
+
+public class LoginResponse {
+
+}

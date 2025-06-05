@@ -1,0 +1,48 @@
+package com.medibridge.authservice.controller;
+
+
+
+
+import com.medibridge.authservice.dto.LoginRequest;
+import com.medibridge.authservice.dto.LoginResponse;
+import com.medibridge.authservice.model.User;
+import com.medibridge.authservice.repository.UserRepository;
+import com.medibridge.authservice.security.JwtUtil;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/auth")
+public class AuthController {
+
+    @Autowired private AuthenticationManager authManager;
+    @Autowired private JwtUtil jwtUtil;
+    @Autowired private UserRepository userRepo;
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        try {
+            Authentication auth = authManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+            );
+
+            UserDetails userDetails = (UserDetails) auth.getPrincipal();
+            String jwt = jwtUtil.generateToken(userDetails);
+
+            User user = userRepo.findByUsername(request.getUsername())
+                                .orElseThrow(() -> new RuntimeException("User not found"));
+
+            return ResponseEntity.ok(new LoginResponse("Login Successful", jwt, user.getRole().getName()));
+
+        } catch (Exception ex) {
+            return ResponseEntity.status(401).body("Invalid username or password");
+        }
+    }
+}
+

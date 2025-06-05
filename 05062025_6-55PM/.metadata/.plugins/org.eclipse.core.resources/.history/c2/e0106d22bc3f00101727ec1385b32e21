@@ -1,0 +1,5 @@
+package com.medibridge.authservice.security;
+
+public class JwtUtil {
+
+}
