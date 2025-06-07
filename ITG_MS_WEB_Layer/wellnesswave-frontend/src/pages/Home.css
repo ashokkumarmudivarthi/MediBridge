@@ -1,0 +1,20 @@
+.module-card {
+  transition: transform 0.3s ease;
+}
+.module-card:hover {
+  transform: scale(1.05);
+}
+.header {
+  background-color: #4CAF50;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+.card-icon {
+  font-size: 30px;
+  color: #4CAF50;
+}
+.navbar-brand {
+  color: #4CAF50;
+  font-weight: bold;
+}
