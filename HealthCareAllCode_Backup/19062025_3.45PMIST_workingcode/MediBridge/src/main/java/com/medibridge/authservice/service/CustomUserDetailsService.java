@@ -1,0 +1,49 @@
+package com.medibridge.authservice.service;
+
+import com.medibridge.authservice.model.User;
+import com.medibridge.authservice.model.Role;
+import com.medibridge.authservice.repository.UserRepository;
+
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.GrantedAuthority;
+
+import org.springframework.stereotype.Service;
+
+import java.util.Collection;
+import java.util.stream.Collectors;
+
+@Service
+public class CustomUserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
+
+    private final UserRepository userRepository;
+
+    public CustomUserDetailsService(UserRepository repo) {
+        this.userRepository = repo;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username)
+            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        System.out.println("Loaded password hash from DB: " + user.getPassword());
+
+        Collection<GrantedAuthority> authorities;
+
+        if (user.getRole() != null) {
+            authorities = java.util.Collections.singletonList(
+                new SimpleGrantedAuthority(user.getRole().getName())
+            );
+        } else {
+            authorities = java.util.Collections.emptyList();
+        }
+
+        return new org.springframework.security.core.userdetails.User(
+            user.getUsername(),
+            user.getPassword(),
+            authorities
+        );
+    }
+}
