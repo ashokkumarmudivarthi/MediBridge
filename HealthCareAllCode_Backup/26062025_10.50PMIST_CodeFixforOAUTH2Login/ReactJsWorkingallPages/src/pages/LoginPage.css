@@ -1,0 +1,38 @@
+.launch-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h2 {
+  color: #4CAF50;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.social-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.social-buttons button {
+  width: 48%;
+}
+
+.register-link {
+  display: block;
+  text-align: center;
+  margin-top: 15px;
+}
